@@ -25,7 +25,14 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertFalse( BankAccount.isEmailValid(""));
+        assertFalse(BankAccount.isEmailValid(""));
+        //Cannot have two dashes in a row
+        assertFalse(BankAccount.isEmailValid("a--b@c.com"));
+        assertTrue(BankAccount.isEmailValid("a-b@c.com"));
+        //The doman must be two or more characters
+        assertFalse(BankAccount.isEmailValid("a@b.c"));
+        assertTrue(BankAccount.isEmailValid("a@b.cc"));
+
     }
 
     @Test

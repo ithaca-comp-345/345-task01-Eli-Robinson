@@ -9,8 +9,11 @@ class BankAccountTest {
     @Test
     void getBalanceTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-
         assertEquals(200, bankAccount.getBalance());
+        BankAccount bankAccount2 = new BankAccount("a@b.com", 0);
+        assertEquals(0, bankAccount2.getBalance());
+        BankAccount bankAccount3 = new BankAccount("a@b.com", -200);
+        assertEquals(-200, bankAccount3.getBalance());
     }
 
     @Test
@@ -29,8 +32,21 @@ class BankAccountTest {
         //Cannot have two dashes in a row
         assertFalse(BankAccount.isEmailValid("a--b@c.com"));
         assertTrue(BankAccount.isEmailValid("a-b@c.com"));
-        //The doman must be two or more characters
+        //The doman must exist and be two or more characters
         assertFalse(BankAccount.isEmailValid("a@b.c"));
+        assertTrue(BankAccount.isEmailValid("a@b.cc"));
+        assertFalse(BankAccount.isEmailValid("a@b."));
+        //Front must exist
+        assertFalse(BankAccount.isEmailValid("@b.c"));
+        assertTrue(BankAccount.isEmailValid("a@b.cc"));
+        //@ must exist
+        assertFalse(BankAccount.isEmailValid("a@b.c"));
+        assertTrue(BankAccount.isEmailValid("ab.cc"));
+        //middle must exist
+        assertFalse(BankAccount.isEmailValid("a@b.c"));
+        assertTrue(BankAccount.isEmailValid("a@.cc"));
+        //. must exist
+        assertFalse(BankAccount.isEmailValid("a@bc"));
         assertTrue(BankAccount.isEmailValid("a@b.cc"));
 
     }

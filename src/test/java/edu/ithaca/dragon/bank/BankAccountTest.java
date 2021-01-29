@@ -64,6 +64,22 @@ class BankAccountTest {
     }
 
     @Test
+    void isAmountValidTest(){
+        //Positive numbers work
+        assertTrue(BankAccount.isAmountValid(100.));
+        //0
+        assertTrue(BankAccount.isAmountValid(0.));
+        //One Decimal works
+        assertTrue(BankAccount.isAmountValid(100.5));
+        //Two Decimal
+        assertTrue(BankAccount.isAmountValid(100.55));
+        //Three Decimal
+        assertFalse(BankAccount.isAmountValid(100.555));
+        //Negatve
+        assertFalse(BankAccount.isAmountValid(-100.));
+    }
+
+    @Test
     void constructorTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 

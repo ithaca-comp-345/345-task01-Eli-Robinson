@@ -29,7 +29,7 @@ class BankAccountTest {
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
         //Test for when account -> 0
         bankAccount.withdraw(100);
-        assertEquals(100, bankAccount.getBalance());
+        assertEquals(0, bankAccount.getBalance());
         //test account at 0
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(100));
         //Test withdrawing negative
@@ -52,8 +52,8 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("@b.c"));
         assertTrue(BankAccount.isEmailValid("a@b.cc"));
         //@ must exist
-        assertFalse(BankAccount.isEmailValid("a@b.c"));
-        assertTrue(BankAccount.isEmailValid("ab.cc"));
+        assertFalse(BankAccount.isEmailValid("ab.cc"));
+        assertTrue(BankAccount.isEmailValid("a@b.cc"));
         //middle must exist
         assertFalse(BankAccount.isEmailValid("a@b.c"));
         assertTrue(BankAccount.isEmailValid("a@.cc"));

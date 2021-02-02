@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.beans.Transient;
+
 class BankAccountTest {
 
     @Test
@@ -35,6 +37,18 @@ class BankAccountTest {
         //Test withdrawing negative
         assertThrows(InsufficientFundsException.class,()->bankAccount.withdraw(-100));
 
+    }
+
+    @Test
+    void depositTest() throws IllegalArgumentException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        //default true
+        bankAccount.deposit(100);
+        assertEquals(300, bankAccount.getBalance());
+        //bad numbers
+        assertThrows(IllegalArgumentException.class,()->bankAccount.deposit(-100));
+        assertThrows(IllegalArgumentException.class,()->bankAccount.deposit(100.111));
+        
     }
 
     @Test
@@ -87,6 +101,9 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance());
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        //Check for amount exception with negative and too many decimals
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.cc", -100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.cc", 100.111));
     }
 
 }

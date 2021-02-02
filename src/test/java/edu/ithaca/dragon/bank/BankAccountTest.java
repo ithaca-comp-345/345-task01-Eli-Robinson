@@ -11,19 +11,19 @@ class BankAccountTest {
     @Test
     void getBalanceTest() {
         //Positive Value
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", 200,0);
         assertEquals(200, bankAccount.getBalance());
         //0
-        BankAccount bankAccount2 = new BankAccount("a@b.com", 0);
+        BankAccount bankAccount2 = new BankAccount("a@b.com", 0,0);
         assertEquals(0, bankAccount2.getBalance());
         //negative value
-        BankAccount bankAccount3 = new BankAccount("a@b.com", -200);
+        BankAccount bankAccount3 = new BankAccount("a@b.com", -200,0);
         assertEquals(-200, bankAccount3.getBalance());
     }
 
     @Test
     void withdrawTest() throws InsufficientFundsException{
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", 200,0);
         //Standard
         bankAccount.withdraw(100);
         assertEquals(100, bankAccount.getBalance());
@@ -40,8 +40,23 @@ class BankAccountTest {
     }
 
     @Test
+    void transferTest() throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200,200);
+        bankAccount.transfer(100.);
+        //Check base case
+        assertEquals(100, bankAccount.getBalance());
+        assertEquals(300, bankAccount.getBalance2());
+        //Check for exceptions
+        assertThrows(InsufficientFundsException.class,()->bankAccount.transfer(-100.));
+        assertThrows(InsufficientFundsException.class,()->bankAccount.transfer(95.111));
+
+
+    }
+
+
+    @Test
     void depositTest() throws IllegalArgumentException{
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", 200,0);
         //default true
         bankAccount.deposit(100);
         assertEquals(300, bankAccount.getBalance());
@@ -95,15 +110,15 @@ class BankAccountTest {
 
     @Test
     void constructorTest() {
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", 200,0);
 
         assertEquals("a@b.com", bankAccount.getEmail());
         assertEquals(200, bankAccount.getBalance());
         //check for exception thrown correctly
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100,0));
         //Check for amount exception with negative and too many decimals
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.cc", -100));
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.cc", 100.111));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.cc", -100,0));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.cc", 100.111,0));
     }
 
 }
